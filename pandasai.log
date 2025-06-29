@@ -1,0 +1,85 @@
+2025-06-28 21:45:07 [INFO] Question: • What is the total sum of all numeric columns?
+2025-06-28 21:45:07 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:45:07 [INFO] Prompt ID: 0964ade7-6e5e-4d35-9b5b-708bb1f6a0eb
+2025-06-28 21:45:07 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:45:55 [INFO] Question:  Show me the distribution of values in the first column
+
+2025-06-28 21:45:55 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:45:55 [INFO] Prompt ID: dcebfbc0-26ed-4ee3-a9c0-a0e9c0050cbf
+2025-06-28 21:45:56 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:46:10 [INFO] Question:  Show me the distribution of values in the first column
+
+2025-06-28 21:46:10 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:46:10 [INFO] Prompt ID: a8eeb749-7fe6-481c-97db-08544a0f1276
+2025-06-28 21:46:11 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:46:28 [INFO] Question:  Show me the distribution of values in the first column
+
+2025-06-28 21:46:28 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:46:28 [INFO] Prompt ID: 129033df-bce2-4198-90ad-1260ca6e35d2
+2025-06-28 21:46:28 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:54:44 [INFO] Question: enter the average age
+
+2025-06-28 21:54:44 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:54:44 [INFO] Prompt ID: 33ce7c94-7659-4bd7-8f99-378dc810ba83
+2025-06-28 21:54:45 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:55:03 [INFO] Question: enter the sum of age column
+
+
+2025-06-28 21:55:03 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:55:03 [INFO] Prompt ID: 0e3006c1-f1ec-4629-8e30-5dfa0776fd92
+2025-06-28 21:55:03 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:55:04 [INFO] Question: enter the sum of age column
+
+
+2025-06-28 21:55:04 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:55:04 [INFO] Prompt ID: 0bb50a53-1458-4a30-8135-5280a531680a
+2025-06-28 21:55:04 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:55:18 [INFO] Question: give me summary of my csv file
+
+
+
+2025-06-28 21:55:18 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:55:18 [INFO] Prompt ID: 98e622f5-79da-4e0e-8e0c-04e9089e96d7
+2025-06-28 21:55:19 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:58:56 [INFO] Question: sum of age column
+2025-06-28 21:58:56 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:58:56 [INFO] Prompt ID: caa88895-a612-43df-8463-f5748448d07b
+2025-06-28 21:58:57 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 21:59:45 [INFO] Question: sum of age column
+2025-06-28 21:59:45 [INFO] Running PandasAI with openai LLM...
+2025-06-28 21:59:45 [INFO] Prompt ID: 91c9aca0-cff7-4887-a8fa-7aae830da345
+2025-06-28 21:59:46 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 22:00:28 [INFO] Question: give me summary of my csv file
+
+2025-06-28 22:00:28 [INFO] Running PandasAI with openai LLM...
+2025-06-28 22:00:28 [INFO] Prompt ID: cf47db90-6bb0-4a0f-90e2-9df98d5e2e2f
+2025-06-28 22:00:29 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:00:21 [INFO] Question: Show me the distribution of values in the first column
+2025-06-28 23:00:21 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:00:21 [INFO] Prompt ID: 164782f5-323f-4c15-985c-0db6cd017a4b
+2025-06-28 23:00:42 [WARNING] Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x0000029DBFB77210>: Failed to establish a new connection: [WinError 10065] A socket operation was attempted to an unreachable host')': /v1/chat/completions
+2025-06-28 23:00:42 [WARNING] Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000029DBFB81390>: Failed to resolve 'api.openai.com' ([Errno 11001] getaddrinfo failed)")': /v1/chat/completions
+2025-06-28 23:00:51 [INFO] Question: Show me the distribution of values in the first column
+2025-06-28 23:00:51 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:00:51 [INFO] Prompt ID: a0e6dc14-1f51-4b0c-b961-2fb03ace39f9
+2025-06-28 23:00:52 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:01:01 [INFO] Question: Show me the distribution of values in the first column.
+2025-06-28 23:01:01 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:01:01 [INFO] Prompt ID: d5709f91-0b3c-4d12-b2e9-2e34657491b9
+2025-06-28 23:01:01 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:06:47 [INFO] Question: Show me the distribution of values in the first column.
+2025-06-28 23:06:47 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:06:47 [INFO] Prompt ID: 9410d452-009a-4776-a1c7-414623c94545
+2025-06-28 23:06:47 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:07:35 [INFO] Question: • What is the total sum of all numeric columns?
+2025-06-28 23:07:35 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:07:35 [INFO] Prompt ID: f35652fd-4e3d-4dd8-994e-2da62d397b8c
+2025-06-28 23:07:36 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:18:52 [INFO] Question: Show me rows where any column has null values
+2025-06-28 23:18:52 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:18:52 [INFO] Prompt ID: 4c350bc7-21a6-49e2-8350-8e7b5638060d
+2025-06-28 23:18:53 [INFO] error_code=invalid_api_key error_message='Incorrect API key provided: sk-proj-***************************************************************xuEJ. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+2025-06-28 23:20:35 [INFO] Question: Show me rows where any column has null values
+2025-06-28 23:20:35 [INFO] Running PandasAI with openai LLM...
+2025-06-28 23:20:35 [INFO] Prompt ID: a7c7d284-f8b4-4242-a372-a8f8bff2bd5e
+2025-06-28 23:20:36 [INFO] error_code=insufficient_quota error_message='You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.' error_param=None error_type=insufficient_quota message='OpenAI API error received' stream_error=False
