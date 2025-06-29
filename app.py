@@ -630,12 +630,12 @@ if st.session_state.prompt_history:
 with st.sidebar:
     st.markdown("## 📖 How to Use")
     st.markdown("""
-    1. **📁 Upload Files**: Upload one or more CSV or Excel files
-    2. **📋 Select Data**: Choose a file and sheet to analyze
-    3. **👀 Preview**: View the top N rows of your data
-    4. **💬 Ask Questions**: Type questions in natural language
-    5. **🎯 Get Insights**: AI will analyze and answer your questions
-    6. **👍 Give Feedback**: Rate responses with thumbs up or down
+    1. ** Upload Files**: Upload one or more CSV or Excel files
+    2. ** Select Data**: Choose a file and sheet to analyze
+    3. ** Preview**: View the top N rows of your data
+    4. ** Ask Questions**: Type questions in natural language
+    5. ** Get Insights**: AI will analyze and answer your questions
+    6. ** Give Feedback**: Rate responses with thumbs up or down
     """)
     
     st.markdown("---")
