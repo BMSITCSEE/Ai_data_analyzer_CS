@@ -704,10 +704,10 @@ with st.sidebar:
     **AI Data Analyzer** v1.0
     
     Built with:
-    - 🚀 Streamlit
-    - 🐼 Pandas
-    - 🤖 PandasAI
-    - 🧠 OpenAI GPT
+    - Streamlit
+    - Pandas
+    - PandasAI
+    - OpenAI GPT
     
     For support or feedback, please contact your admin.
     """)
@@ -717,7 +717,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: #6B7280; padding: 1rem;'>
-        <p>Built with ❤️ using Streamlit, PandasAI, and OpenAI | 
+        <p>Built with using Streamlit, PandasAI, and OpenAI | 
         <a href='https://github.com' style='color: #3B82F6; text-decoration: none;'>GitHub</a> | 
         <a href='https://docs.streamlit.io' style='color: #3B82F6; text-decoration: none;'>Docs</a>
         </p>
