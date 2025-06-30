@@ -606,9 +606,9 @@ if st.session_state.uploaded_files:
                     error_msg = str(e)
                     if "api" in error_msg.lower():
                         st.error("⚠️ Analysis service temporarily unavailable. Please try again.")
-		    elif "data" in error_msg.lower():
+                    elif "data" in error_msg.lower():
                         st.error("📊 Data format issue detected. Please check your file structure.")
-		    else:
+                    else:
                         st.error("❌ Unable to process this request. Try rephrasing your question.")
 
     elif analyze_button and not user_prompt:
