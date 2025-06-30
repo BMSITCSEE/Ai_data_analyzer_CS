@@ -270,16 +270,22 @@ if uploaded_files:
                         'size': file.size
                     }
                 else:
-                    excel_file = pd.ExcelFile(temp_path)
-                    sheets = {}
-                    for sheet_name in excel_file.sheet_names:
-                        sheets[sheet_name] = pd.read_excel(temp_path, sheet_name=sheet_name)
-                    st.session_state.uploaded_files[file.name] = {
-                        'path': temp_path,
-                        'sheets': sheets,
-                        'type': 'excel',
-                        'size': file.size
-                    }
+                    # Excel file - specify engine based on extension
+                    if file.name.endswith('.xls'):
+                        engine = 'xlrd'
+                    else:  # .xlsx
+                        engine = 'openpyxl'
+    
+                excel_file = pd.ExcelFile(temp_path, engine=engine)
+                sheets = {}
+                for sheet_name in excel_file.sheet_names:
+                    sheets[sheet_name] = pd.read_excel(temp_path, sheet_name=sheet_name, engine=engine)
+                st.session_state.uploaded_files[file.name] = {
+                    'path': temp_path,
+                    'sheets': sheets,
+                    'type': 'excel',
+                    'size': file.size
+                }
             except Exception as e:
                 st.error(f"Error loading {file.name}: {str(e)}")
     
