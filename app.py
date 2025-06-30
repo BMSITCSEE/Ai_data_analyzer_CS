@@ -292,7 +292,7 @@ if uploaded_files:
                 st.error(f"Error loading {file.name}: {str(e)}")
     
     if new_files > 0:
-        st.success(f"✅ Successfully uploaded {new_files} new file(s)"
+        st.success(f"✅ Successfully uploaded {new_files} new file(s)")
 
 # Displaying list of uploaded files
 if st.session_state.uploaded_files:
