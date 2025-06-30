@@ -570,35 +570,35 @@ if st.session_state.uploaded_files:
                                 st.pyplot(fig)
             
 
-                st.markdown("---")# Feedback buttons with callbacks
-                st.markdown("**Was this answer helpful?**")
-                col1, col2, col3 = st.columns([1, 1, 8])
+                    st.markdown("---")# Feedback buttons with callbacks
+                    st.markdown("**Was this answer helpful?**")
+                    col1, col2, col3 = st.columns([1, 1, 8])
             
-                current_item_id = history_item['id']
+                    current_item_id = history_item['id']
             
-                with col1:
-                    if st.button("👍 Yes", 
-                                 key=f"pos_{current_item_id}", 
-                                 on_click=save_positive_feedback,
-                                 args=(current_item_id,),
-                                 help="This answer was helpful"):
-                        st.success("Thanks for your feedback!")
+                    with col1:
+                        if st.button("👍 Yes", 
+                                     key=f"pos_{current_item_id}", 
+                                     on_click=save_positive_feedback,
+                                     args=(current_item_id,),
+                                     help="This answer was helpful"):
+                            st.success("Thanks for your feedback!")
                     
-                with col2:
-                    if st.button("👎 No", 
-                                 key=f"neg_{current_item_id}",
-                                 on_click=save_negative_feedback,
-                                 args=(current_item_id,),
-                                 help="This answer needs improvement"):
-                        st.info("Thanks for your feedback! We'll work on improving.")
+                    with col2:
+                        if st.button("👎 No", 
+                                     key=f"neg_{current_item_id}",
+                                     on_click=save_negative_feedback,
+                                     args=(current_item_id,),
+                                     help="This answer needs improvement"):
+                            st.info("Thanks for your feedback! We'll work on improving.")
             
                 # Show if already rated
-                if current_item_id in st.session_state.feedback:
-                    with col3:
-                        if st.session_state.feedback[current_item_id] == 'positive':
-                            st.markdown("✅ _You found this helpful_")
-                        else:
-                            st.markdown("📝 _You suggested improvement_")
+                    if current_item_id in st.session_state.feedback:
+                        with col3:
+                            if st.session_state.feedback[current_item_id] == 'positive':
+                                st.markdown("✅ _You found this helpful_")
+                            else:
+                                st.markdown("📝 _You suggested improvement_")
                     
             
             
