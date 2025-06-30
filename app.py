@@ -471,14 +471,14 @@ if st.session_state.uploaded_files:
                          max_tokens=800
                     )
                     ai_response = response['choices'][0]['message']['content']
-		    if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
+		if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
 			ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
 			    		  "The dataset contains processed columns that need proper evaluation. " + \
 			    		  "Please ensure all calculated fields are properly resolved before analysis."
 
 		    # Remove any code-like patterns
-		    ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
-		    ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
+		ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
+		ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
 			
             
                     # Add to history
