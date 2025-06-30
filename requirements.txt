@@ -8,3 +8,4 @@ numpy==1.24.3
 langchain==0.0.199
 matplotlib==3.7.2
 seaborn==0.12.2
+xlrd>=1.0.0
