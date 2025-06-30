@@ -12,10 +12,10 @@ import io
 import base64
 import re
 
-# Load environment variables
+# Loading environment variables
 load_dotenv()
 
-# ADD THESE CALLBACK FUNCTIONS HERE:
+# Adding callbacks
 def save_positive_feedback(item_id):
     st.session_state.feedback[item_id] = 'positive'
     
@@ -27,45 +27,44 @@ def generate_graph(df, prompt, ai_suggestion=None):
     """Generate graphs based on user prompt"""
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    # Set style
+    # Style
     sns.set_style("whitegrid")
     
     prompt_lower = prompt.lower()
 
-    # ADD THIS SMART COLUMN SELECTION:
+    # selecting columns
     def get_best_columns(df, column_type='numeric'):
         id_patterns = ['id', 'index', 'key', 'code', '_id']
         
         if column_type == 'numeric':
             cols = df.select_dtypes(include=['float64', 'int64']).columns
-            # Filter out ID-like columns
+            # Filtering id columns
             cols = [c for c in cols if not any(pattern in c.lower() for pattern in id_patterns)]
             return cols if cols else df.select_dtypes(include=['float64', 'int64']).columns
         else:
             cols = df.columns.tolist()
-            # Prioritize non-ID columns
+            # Prioritizing non-ID columns
             cols = [c for c in cols if not any(pattern in c.lower() for pattern in id_patterns)]
             return cols if cols else df.columns.tolist()
     
-    # Try to detect what kind of graph to create
+    # Detecting type of graph created
     if any(word in prompt_lower for word in ['histogram', 'distribution', 'spread']):
-        # Find numeric columns
+        # Finding numeric columns
         numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
         if len(numeric_cols) > 0:
-            col = numeric_cols[0]  # Use first numeric column
+            col = numeric_cols[0]  
             df[col].hist(ax=ax, bins=30, edgecolor='black')
             ax.set_title(f'Distribution of {col}')
             ax.set_xlabel(col)
             ax.set_ylabel('Frequency')
             
     elif any(word in prompt_lower for word in ['bar chart', 'bar graph', 'bar plot']):
-        # Try to create a bar chart
+        # Creating a bar chart
         if len(df.columns) >= 2:
-            # Use first column as x and second as y
             x_col = df.columns[0]
             y_col = df.columns[1] if len(df.columns) > 1 else df.columns[0]
             
-            # Group by first column and get mean of second
+            # Grouping by first column and taking mean of second
             grouped = df.groupby(x_col)[y_col].mean().head(20)
             grouped.plot(kind='bar', ax=ax)
             ax.set_title(f'Average {y_col} by {x_col}')
@@ -74,7 +73,7 @@ def generate_graph(df, prompt, ai_suggestion=None):
             plt.xticks(rotation=45)
             
     elif any(word in prompt_lower for word in ['scatter', 'correlation']):
-        # Create scatter plot
+        # Creating scatter plot
         numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
         if len(numeric_cols) >= 2:
             x_col = numeric_cols[0]
@@ -85,7 +84,7 @@ def generate_graph(df, prompt, ai_suggestion=None):
             ax.set_title(f'{x_col} vs {y_col}')
             
     elif any(word in prompt_lower for word in ['pie chart', 'pie graph']):
-        # Create pie chart
+        # Creating pie chart
         if len(df.columns) >= 1:
             col = df.columns[0]
             value_counts = df[col].value_counts().head(10)
@@ -94,17 +93,17 @@ def generate_graph(df, prompt, ai_suggestion=None):
             ax.set_ylabel('')
             
     elif any(word in prompt_lower for word in ['line chart', 'line graph', 'trend']):
-        # Create line chart
+        # Creating line chart
         numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
         if len(numeric_cols) > 0:
-            for col in numeric_cols[:3]:  # Plot up to 3 numeric columns
+            for col in numeric_cols[:3]: 
                 df[col].plot(ax=ax, label=col)
             ax.set_title('Trend Analysis')
             ax.set_xlabel('Index')
             ax.legend()
             
     elif any(word in prompt_lower for word in ['heatmap', 'correlation matrix']):
-        # Create correlation heatmap
+        # Creating correlation heatmap
         numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
         if len(numeric_cols) > 1:
             corr = df[numeric_cols].corr()
@@ -112,7 +111,7 @@ def generate_graph(df, prompt, ai_suggestion=None):
             ax.set_title('Correlation Heatmap')
             
     else:
-        # Default: create a bar chart of value counts for first column
+        # Default:Ccreating a bar chart 
         col = df.columns[0]
         df[col].value_counts().head(15).plot(kind='bar', ax=ax)
         ax.set_title(f'Top Values in {col}')
@@ -140,7 +139,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better UI
+# CSS
 st.markdown("""
 <style>
     .main-header {
@@ -210,7 +209,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
+# giving values to session state
 if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = {}
 if 'prompt_history' not in st.session_state:
@@ -224,7 +223,7 @@ if 'feedback' not in st.session_state:
 st.markdown('<h1 class="main-header">📊 AI-Powered Data Analyzer</h1>', unsafe_allow_html=True)
 st.markdown('<p style="text-align: center; color: #6B7280; font-size: 1.1rem;">Upload your CSV or Excel files and ask questions in natural language</p>', unsafe_allow_html=True)
 
-# Initialize OpenAI
+# Initializing OpenAI
 api_key = os.getenv('OPENAI_API_KEY')
 if not api_key:
     st.error("⚠️ OpenAI API key not found! Please add it to your .env file.")
@@ -256,12 +255,12 @@ if uploaded_files:
         if file.name not in st.session_state.uploaded_files:
             new_files += 1
             try:
-                # Save file temporarily
+                # Saving file temporarily
                 with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.name)[1]) as tmp_file:
                     tmp_file.write(file.getvalue())
                     temp_path = tmp_file.name
                 
-                # Load file based on type
+                # Loading file 
                 if file.name.endswith('.csv'):
                     df = pd.read_csv(temp_path)
                     st.session_state.uploaded_files[file.name] = {
@@ -287,7 +286,7 @@ if uploaded_files:
     if new_files > 0:
         st.success(f"✅ Successfully uploaded {new_files} new file(s)")
 
-# Display list of uploaded files
+# Displaying list of uploaded files
 if st.session_state.uploaded_files:
     st.markdown("### 📂 Uploaded Files")
     for filename, file_info in st.session_state.uploaded_files.items():
@@ -308,7 +307,7 @@ if st.session_state.uploaded_files:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Display uploaded files and data preview
+# Displaying uploaded files and data preview
 if st.session_state.uploaded_files:
     st.markdown('<div class="data-preview-section">', unsafe_allow_html=True)
     st.markdown('<h2 class="sub-header">📋 File Selection & Preview</h2>', unsafe_allow_html=True)
@@ -341,13 +340,13 @@ if st.session_state.uploaded_files:
             help="Number of rows to preview"
         )
     
-    # Display data preview
+    # Displaying data preview
     if selected_file and selected_sheet:
         st.session_state.current_df = st.session_state.uploaded_files[selected_file]['sheets'][selected_sheet]
         
         st.markdown("### 👀 Data Preview")
 	
-            # Show column info
+            # Showing column info
         with st.expander("📊 Column Information", expanded=False):
             col_info = pd.DataFrame({
                 'Column': st.session_state.current_df.columns,
@@ -358,14 +357,14 @@ if st.session_state.uploaded_files:
             })
             st.dataframe(col_info, use_container_width=True)
         
-        # Display data preview
+        # Displaying data preview
         st.dataframe(
             st.session_state.current_df.head(n_rows),
             use_container_width=True,
             height=300
         )
         
-        # Display basic statistics
+        # Displaying basic statistics
         st.markdown("### 📈 Quick Statistics")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -396,7 +395,7 @@ if st.session_state.uploaded_files:
         st.markdown('<div class="prompt-section">', unsafe_allow_html=True)
         st.markdown('<h2 class="sub-header">💬 Ask Questions About Your Data</h2>', unsafe_allow_html=True)
         
-        # Example prompts
+        
         # Example prompts
         example_prompts = [
     	"What are the key statistics for this dataset?",
@@ -434,15 +433,15 @@ if st.session_state.uploaded_files:
                 try:
                     df = st.session_state.current_df
             
-                    # Check if user is asking for a graph
+                    # Checking if user wants graph
                     graph_keywords = ['plot', 'graph', 'chart', 'visualize', 'visualization', 'show me', 'display', 
                             'histogram', 'scatter', 'bar', 'pie', 'line', 'heatmap', 'correlation']
                     is_graph_request = any(keyword in user_prompt.lower() for keyword in graph_keywords)
             
-                    # Prepare data sample for AI
+                    # Preparing data sample 
                     df_sample = df.head(50).to_csv(index=False) if len(df) > 50 else df.to_csv(index=False)
             
-                    # Create prompt for AI
+                    # Creating prompt for AI
                     system_prompt = """You are a professional data analyst. Follow these rules strictly:
 		    1. For numerical questions, provide exact numbers and calculations
  		    2. For 'top N' questions, show actual values in a clean list format
@@ -460,7 +459,7 @@ if st.session_state.uploaded_files:
             
                     User question: {user_prompt}"""
             
-                    # Get AI response
+                    # Getting AI response
                     response = openai.ChatCompletion.create(
                          model="gpt-3.5-turbo",
                          messages=[
@@ -471,16 +470,19 @@ if st.session_state.uploaded_files:
                          max_tokens=800
                     )
                     ai_response = response['choices'][0]['message']['content']
-		if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
-			ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
-			    		  "The dataset contains processed columns that need proper evaluation. " + \
-			    		  "Please ensure all calculated fields are properly resolved before analysis."
-
-		    # Remove any code-like patterns
-		ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
-		ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
-			
-            
+                
+                    # Clean the response from any technical artifacts
+                    
+                    if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
+                        ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
+                                  "The dataset contains processed columns that need proper evaluation. " + \
+                                  "Please ensure all calculated fields are properly resolved before analysis."
+                
+                    # Remove any code-like patterns
+                    ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
+                    ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
+                
+                
                     # Add to history
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     history_item = {
