@@ -652,31 +652,31 @@ if st.session_state.prompt_history:
         
         
         # Displaying filtered history
-	for item in reversed(filtered_history):
+        for item in reversed(filtered_history):
 	    # Checking feedback status
-	    feedback = st.session_state.feedback.get(item['id'], None)
+            feedback = st.session_state.feedback.get(item['id'], None)
 	    
 	    # Color code based on feedback
-	    border_color = "#10B981" if feedback == 'positive' else "#EF4444" if feedback == 'negative' else "#3B82F6"
+            border_color = "#10B981" if feedback == 'positive' else "#EF4444" if feedback == 'negative' else "#3B82F6"
 	    
-	    st.markdown(f'<div class="history-item" style="border-left: 4px solid {border_color};">', unsafe_allow_html=True)
+            st.markdown(f'<div class="history-item" style="border-left: 4px solid {border_color};">', unsafe_allow_html=True)
 	    
-	    col1, col2 = st.columns([5, 1])
-	    with col1:
-	        st.markdown(f"**🕐 {item['timestamp']}** | 📁 {item['file']} - {item['sheet']}")
-	        st.markdown(f"**Q:** {item['question']}")
-	        st.markdown(f"**A:** {item['answer']}")
+            col1, col2 = st.columns([5, 1])
+            with col1:
+                st.markdown(f"**🕐 {item['timestamp']}** | 📁 {item['file']} - {item['sheet']}")
+                st.markdown(f"**Q:** {item['question']}")
+                st.markdown(f"**A:** {item['answer']}")
 	    
-	    with col2:
-	        if feedback == 'positive':
-	            st.markdown("✅ **Helpful**")
-	        elif feedback == 'negative':
-	            st.markdown("❌ **Needs Work**")
-	        else:
-	            st.markdown("⚪ _No rating_")
+            with col2:
+                if feedback == 'positive':
+                    st.markdown("✅ **Helpful**")
+                elif feedback == 'negative':
+                    st.markdown("❌ **Needs Work**")
+                else:
+                    st.markdown("⚪ _No rating_")
 	    
-	    st.markdown('</div>', unsafe_allow_html=True)
-	    st.markdown("---")
+            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown("---")
         
         # Exporting history button
         if st.button("📥 Export History to JSON"):
