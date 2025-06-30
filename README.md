@@ -16,8 +16,8 @@ An intelligent web application that allows users to analyze CSV and Excel files 
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/cybersierra-assignment.git
-cd cybersierra-assignment
+git clone https://github.com/BMSITCSEE/Ai_data_analyzer_CS.git
+cd Ai_data_analyzer_CS
 
 # Create virtual environment
 python -m venv venv
@@ -31,3 +31,7 @@ echo "OPENAI_API_KEY=your-api-key-here" > .env
 
 # Run the app
 streamlit run app.py
+
+# Live Demo
+[Click here to open the deployed app]
+(https://ai-data-analyzer-cs.streamlit.app)
