@@ -471,19 +471,19 @@ if st.session_state.uploaded_files:
                     )
                     ai_response = response['choices'][0]['message']['content']
                 
-                    # Clean the response from any technical artifacts
+                    # Cleaning the response 
                     
                     if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
                         ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
                                   "The dataset contains processed columns that need proper evaluation. " + \
                                   "Please ensure all calculated fields are properly resolved before analysis."
                 
-                    # Remove any code-like patterns
+                    # Removing code-like patterns
                     ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
                     ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
                 
                 
-                    # Add to history
+                    # Adding to history
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     history_item = {
                         'timestamp': timestamp,
@@ -495,19 +495,19 @@ if st.session_state.uploaded_files:
                     }
                     st.session_state.prompt_history.append(history_item)
             
-                    # Display answer
+                    # Displaying answer
                     st.markdown('<div class="answer-box">', unsafe_allow_html=True)
                     st.markdown("### 🎯 Answer")
                     st.write(ai_response)
             
-                    # Generate graph if requested
+                    # Generating graph if requested
                     if is_graph_request:
                         try:
                             st.markdown("### 📊 Generated Visualization")
                             fig = generate_graph(df, user_prompt, ai_response)
                             st.pyplot(fig)
                     
-                             # Add download button for the graph
+                             # Adding download button for the graph
                             img_base64 = fig_to_base64(fig)
                             href = f'<a href="data:image/png;base64,{img_base64}" download="chart.png">Download Chart</a>'
                             st.markdown(href, unsafe_allow_html=True)
@@ -515,7 +515,7 @@ if st.session_state.uploaded_files:
                         except Exception as e:
                             st.warning(f"Could not generate automatic visualization: {str(e)}")
                     
-                            # Offer manual graph options
+                            # Offering manual graph options
                             st.markdown("#### 📊 Manual Visualization Options")
                             numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns.tolist()
                             categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
@@ -569,37 +569,38 @@ if st.session_state.uploaded_files:
                                 plt.tight_layout()
                                 st.pyplot(fig)
             
-                    # Feedback buttons
-                    # Feedback buttons with callbacks
-		    st.markdown("---")
-		    st.markdown("**Was this answer helpful?**")
-		    col1, col2, col3 = st.columns([1, 1, 8])
-		
-		    current_item_id = history_item['id']
-		
-		    with col1:
-		        if st.button("👍 Yes", 
-		                     key=f"pos_{current_item_id}", 
-		                     on_click=save_positive_feedback,
-		                     args=(current_item_id,),
-		                     help="This answer was helpful"):
-		            st.success("Thanks for your feedback!")
-		        
-		    with col2:
-		        if st.button("👎 No", 
-		                     key=f"neg_{current_item_id}",
-		                     on_click=save_negative_feedback,
-		                     args=(current_item_id,),
-		                     help="This answer needs improvement"):
-		            st.info("Thanks for your feedback! We'll work on improving.")
-		
-		    # Show if already rated
-		    if current_item_id in st.session_state.feedback:
-		        with col3:
-		            if st.session_state.feedback[current_item_id] == 'positive':
-		                st.markdown("✅ _You found this helpful_")
-		            else:
-		                st.markdown("📝 _You suggested improvement_")
+
+            st.markdown("---")# Feedback buttons with callbacks
+            st.markdown("**Was this answer helpful?**")
+            col1, col2, col3 = st.columns([1, 1, 8])
+            
+            current_item_id = history_item['id']
+            
+            with col1:
+                if st.button("👍 Yes", 
+                             key=f"pos_{current_item_id}", 
+                             on_click=save_positive_feedback,
+                             args=(current_item_id,),
+                             help="This answer was helpful"):
+                    st.success("Thanks for your feedback!")
+                    
+            with col2:
+                if st.button("👎 No", 
+                             key=f"neg_{current_item_id}",
+                             on_click=save_negative_feedback,
+                             args=(current_item_id,),
+                             help="This answer needs improvement"):
+                    st.info("Thanks for your feedback! We'll work on improving.")
+            
+            # Show if already rated
+            if current_item_id in st.session_state.feedback:
+                with col3:
+                    if st.session_state.feedback[current_item_id] == 'positive':
+                        st.markdown("✅ _You found this helpful_")
+                    else:
+                        st.markdown("📝 _You suggested improvement_")
+                    
+            
             
                 except Exception as e:
                     error_msg = str(e)
@@ -615,13 +616,13 @@ if st.session_state.uploaded_files:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Prompt History Section
+# Prompt History 
 if st.session_state.prompt_history:
     st.markdown("---")
     with st.expander("📜 Query History", expanded=False):
         st.markdown("### Previous Questions & Answers")
         
-        # Add filter options
+        # Adding filter options
         col1, col2, col3 = st.columns([2, 2, 2])
         with col1:
             filter_file = st.selectbox(
@@ -636,7 +637,7 @@ if st.session_state.prompt_history:
                 key="history_filter_feedback"
             )
         
-        # Filter history
+        # Filtering history
         filtered_history = st.session_state.prompt_history.copy()
         if filter_file != "All":
             filtered_history = [item for item in filtered_history if item['file'] == filter_file]
@@ -646,13 +647,13 @@ if st.session_state.prompt_history:
                 filtered_history = [item for item in filtered_history if st.session_state.feedback.get(item['id']) == 'positive']
             elif filter_feedback == "Negative":
                 filtered_history = [item for item in filtered_history if st.session_state.feedback.get(item['id']) == 'negative']
-            else:  # No feedback
+            else:  
                 filtered_history = [item for item in filtered_history if item['id'] not in st.session_state.feedback]
         
-        # Display filtered history
-        # Display filtered history
+        
+        # Displaying filtered history
 	for item in reversed(filtered_history):
-	    # Check feedback status
+	    # Checking feedback status
 	    feedback = st.session_state.feedback.get(item['id'], None)
 	    
 	    # Color code based on feedback
@@ -677,7 +678,7 @@ if st.session_state.prompt_history:
 	    st.markdown('</div>', unsafe_allow_html=True)
 	    st.markdown("---")
         
-        # Export history button
+        # Exporting history button
         if st.button("📥 Export History to JSON"):
             history_export = {
                 'export_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -692,7 +693,7 @@ if st.session_state.prompt_history:
                 mime="application/json"
             )
 
-# Sidebar with instructions and info
+# Sidebar with instructions 
 with st.sidebar:
     st.markdown("## 📖 How to Use")
     st.markdown("""
