@@ -14,6 +14,14 @@ import base64
 # Load environment variables
 load_dotenv()
 
+# ADD THESE CALLBACK FUNCTIONS HERE:
+def save_positive_feedback(item_id):
+    st.session_state.feedback[item_id] = 'positive'
+    
+def save_negative_feedback(item_id):
+    st.session_state.feedback[item_id] = 'negative'
+
+
 def generate_graph(df, prompt, ai_suggestion=None):
     """Generate graphs based on user prompt"""
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -22,6 +30,21 @@ def generate_graph(df, prompt, ai_suggestion=None):
     sns.set_style("whitegrid")
     
     prompt_lower = prompt.lower()
+
+    # ADD THIS SMART COLUMN SELECTION:
+    def get_best_columns(df, column_type='numeric'):
+        id_patterns = ['id', 'index', 'key', 'code', '_id']
+        
+        if column_type == 'numeric':
+            cols = df.select_dtypes(include=['float64', 'int64']).columns
+            # Filter out ID-like columns
+            cols = [c for c in cols if not any(pattern in c.lower() for pattern in id_patterns)]
+            return cols if cols else df.select_dtypes(include=['float64', 'int64']).columns
+        else:
+            cols = df.columns.tolist()
+            # Prioritize non-ID columns
+            cols = [c for c in cols if not any(pattern in c.lower() for pattern in id_patterns)]
+            return cols if cols else df.columns.tolist()
     
     # Try to detect what kind of graph to create
     if any(word in prompt_lower for word in ['histogram', 'distribution', 'spread']):
@@ -375,17 +398,17 @@ if st.session_state.uploaded_files:
         # Example prompts
         # Example prompts
         example_prompts = [
-            "What is the total sum of all numeric columns?",
-            "Show me the distribution of values in the first column",
-            "What are the top 5 most frequent values?",
-            "Calculate the correlation between numeric columns",
-            "Show me rows where any column has null values",
-            "Create a bar chart showing the top 10 values",
-            "Plot a histogram of age distribution",
-            "Show me a scatter plot of price vs quantity",
-            "Generate a pie chart of categories",
-            "Create a heatmap of correlations"
-        ]
+    	"What are the key statistics for this dataset?",
+    	"Show me sales trends over time",
+    	"Which categories have the highest values?",
+    	"Display customer distribution by region",
+    	"Analyze the relationship between price and quantity",
+    	"Create a summary report of all numeric columns",
+    	"Find patterns in the data",
+    	"What insights can you provide about this data?",
+    	"Generate a bar chart showing top 10 items",
+    	"Create a histogram of the age distribution"
+	]
         
         with st.expander("💡 Example Questions", expanded=False):
             for prompt in example_prompts:
@@ -419,10 +442,13 @@ if st.session_state.uploaded_files:
                     df_sample = df.head(50).to_csv(index=False) if len(df) > 50 else df.to_csv(index=False)
             
                     # Create prompt for AI
-                    system_prompt = """You are a data analyst AI. When answering questions:
-                    1. If the user asks for a graph/chart/visualization, describe what type would be best and what it would show
-                    2. For numerical questions, provide specific numbers and statistics
-                    3. Be concise but informative"""
+                    system_prompt = """You are a professional data analyst. Follow these rules strictly:
+		    1. For numerical questions, provide exact numbers and calculations
+ 		    2. For 'top N' questions, show actual values in a clean list format
+	            3. For graph requests, describe what the visualization would show
+		    4. Never show code, functions, or technical objects like '<lambda>'
+	            5. Format answers as brief, professional insights
+		    6. If data has computed columns, explain what they represent in plain English"""
             
                     prompt = f"""Here's a dataset with {len(df)} rows and {len(df.columns)} columns.
                     Columns: {list(df.columns)}
@@ -444,6 +470,17 @@ if st.session_state.uploaded_files:
                          max_tokens=800
                     )
                     ai_response = response['choices'][0]['message']['content']
+
+		    import re
+		    if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
+			    ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
+			    		  "The dataset contains processed columns that need proper evaluation. " + \
+			    		  "Please ensure all calculated fields are properly resolved before analysis."
+
+		    # Remove any code-like patterns
+		    ai_response = re.sub(r'<[^>]+>', '', ai_response)  # Remove HTML-like tags
+		    ai_response = re.sub(r'\b0x[0-9a-fA-F]+\b', '', ai_response)  # Remove memory addresses
+			
             
                     # Add to history
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -532,23 +569,45 @@ if st.session_state.uploaded_files:
                                 st.pyplot(fig)
             
                     # Feedback buttons
-                    st.markdown("---")
-                    st.markdown("**Was this answer helpful?**")
-                    col1, col2, col3 = st.columns([1, 1, 8])
-                    with col1:
-                        if st.button("👍 Yes", key=f"pos_{history_item['id']}", help="This answer was helpful"):
-                            st.session_state.feedback[history_item['id']] = 'positive'
-                            st.success("Thanks for your feedback!")
-                    with col2:
-                        if st.button("👎 No", key=f"neg_{history_item['id']}", help="This answer needs improvement"):
-                            st.session_state.feedback[history_item['id']] = 'negative'
-                            st.info("Thanks for your feedback! We'll work on improving.")
-            
-                    st.markdown('</div>', unsafe_allow_html=True)
+                    # Feedback buttons with callbacks
+		    st.markdown("---")
+		    st.markdown("**Was this answer helpful?**")
+		    col1, col2, col3 = st.columns([1, 1, 8])
+		
+		    current_item_id = history_item['id']
+		
+		    with col1:
+		        if st.button("👍 Yes", 
+		                     key=f"pos_{current_item_id}", 
+		                     on_click=save_positive_feedback,
+		                     args=(current_item_id,),
+		                     help="This answer was helpful"):
+		            st.success("Thanks for your feedback!")
+		        
+		    with col2:
+		        if st.button("👎 No", 
+		                     key=f"neg_{current_item_id}",
+		                     on_click=save_negative_feedback,
+		                     args=(current_item_id,),
+		                     help="This answer needs improvement"):
+		            st.info("Thanks for your feedback! We'll work on improving.")
+		
+		    # Show if already rated
+		    if current_item_id in st.session_state.feedback:
+		        with col3:
+		            if st.session_state.feedback[current_item_id] == 'positive':
+		                st.markdown("✅ _You found this helpful_")
+		            else:
+		                st.markdown("📝 _You suggested improvement_")
             
                 except Exception as e:
-                    st.error(f"❌ Error analyzing data: {str(e)}")
-                    st.info("💡 Tip: Try rephrasing your question or make sure your data is properly formatted.")
+                    error_msg = str(e)
+                    if "api" in error_msg.lower():
+			    st.error("⚠️ Analysis service temporarily unavailable. Please try again.")
+		    elif "data" in error_msg.lower():
+			    st.error("📊 Data format issue detected. Please check your file structure.")
+		    else:
+			    st.error("❌ Unable to process this request. Try rephrasing your question.")
 
     elif analyze_button and not user_prompt:
         st.warning("⚠️ Please enter a question to analyze your data.")
@@ -590,26 +649,32 @@ if st.session_state.prompt_history:
                 filtered_history = [item for item in filtered_history if item['id'] not in st.session_state.feedback]
         
         # Display filtered history
-        for item in reversed(filtered_history):
-            st.markdown('<div class="history-item">', unsafe_allow_html=True)
-            
-            col1, col2 = st.columns([5, 1])
-            with col1:
-                st.markdown(f"**🕐 {item['timestamp']}** | 📁 {item['file']} - {item['sheet']}")
-                st.markdown(f"**Q:** {item['question']}")
-                st.markdown(f"**A:** {item['answer']}")
-            
-            with col2:
-                feedback = st.session_state.feedback.get(item['id'], None)
-                if feedback == 'positive':
-                    st.markdown("✅ 👍")
-                elif feedback == 'negative':
-                    st.markdown("❌ 👎")
-                else:
-                    st.markdown("⚪ —")
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-            st.markdown("---")
+        # Display filtered history
+	for item in reversed(filtered_history):
+	    # Check feedback status
+	    feedback = st.session_state.feedback.get(item['id'], None)
+	    
+	    # Color code based on feedback
+	    border_color = "#10B981" if feedback == 'positive' else "#EF4444" if feedback == 'negative' else "#3B82F6"
+	    
+	    st.markdown(f'<div class="history-item" style="border-left: 4px solid {border_color};">', unsafe_allow_html=True)
+	    
+	    col1, col2 = st.columns([5, 1])
+	    with col1:
+	        st.markdown(f"**🕐 {item['timestamp']}** | 📁 {item['file']} - {item['sheet']}")
+	        st.markdown(f"**Q:** {item['question']}")
+	        st.markdown(f"**A:** {item['answer']}")
+	    
+	    with col2:
+	        if feedback == 'positive':
+	            st.markdown("✅ **Helpful**")
+	        elif feedback == 'negative':
+	            st.markdown("❌ **Needs Work**")
+	        else:
+	            st.markdown("⚪ _No rating_")
+	    
+	    st.markdown('</div>', unsafe_allow_html=True)
+	    st.markdown("---")
         
         # Export history button
         if st.button("📥 Export History to JSON"):
@@ -709,7 +774,8 @@ with st.sidebar:
     - PandasAI
     - OpenAI GPT
     
-    For support or feedback, please contact your admin.
+    Developed with modern data science principles
+    for efficient business intelligence.
     """)
 
 # Footer
