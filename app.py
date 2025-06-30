@@ -239,6 +239,7 @@ except Exception as e:
     st.stop()
 
 # File Upload Section
+# File Upload Section
 st.markdown('<div class="file-upload-section">', unsafe_allow_html=True)
 st.markdown('<h2 class="sub-header">📁 Upload Files</h2>', unsafe_allow_html=True)
 
@@ -276,21 +277,22 @@ if uploaded_files:
                     else:  # .xlsx
                         engine = 'openpyxl'
     
-                excel_file = pd.ExcelFile(temp_path, engine=engine)
-                sheets = {}
-                for sheet_name in excel_file.sheet_names:
-                    sheets[sheet_name] = pd.read_excel(temp_path, sheet_name=sheet_name, engine=engine)
-                st.session_state.uploaded_files[file.name] = {
-                    'path': temp_path,
-                    'sheets': sheets,
-                    'type': 'excel',
-                    'size': file.size
-                }
+                    # INDENT THESE LINES - they need to be inside the else block
+                    excel_file = pd.ExcelFile(temp_path, engine=engine)
+                    sheets = {}
+                    for sheet_name in excel_file.sheet_names:
+                        sheets[sheet_name] = pd.read_excel(temp_path, sheet_name=sheet_name, engine=engine)
+                    st.session_state.uploaded_files[file.name] = {
+                        'path': temp_path,
+                        'sheets': sheets,
+                        'type': 'excel',
+                        'size': file.size
+                    }
             except Exception as e:
                 st.error(f"Error loading {file.name}: {str(e)}")
     
     if new_files > 0:
-        st.success(f"✅ Successfully uploaded {new_files} new file(s)")
+        st.success(f"✅ Successfully uploaded {new_files} new file(s)"
 
 # Displaying list of uploaded files
 if st.session_state.uploaded_files:
