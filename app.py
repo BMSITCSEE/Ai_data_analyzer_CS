@@ -238,7 +238,7 @@ except Exception as e:
     st.error(f"Error initializing OpenAI: {str(e)}")
     st.stop()
 
-# File Upload Section
+
 # File Upload Section
 st.markdown('<div class="file-upload-section">', unsafe_allow_html=True)
 st.markdown('<h2 class="sub-header">📁 Upload Files</h2>', unsafe_allow_html=True)
@@ -271,13 +271,13 @@ if uploaded_files:
                         'size': file.size
                     }
                 else:
-                    # Excel file - specify engine based on extension
+                    
                     if file.name.endswith('.xls'):
                         engine = 'xlrd'
-                    else:  # .xlsx
+                    else:  
                         engine = 'openpyxl'
     
-                    # INDENT THESE LINES - they need to be inside the else block
+                    
                     excel_file = pd.ExcelFile(temp_path, engine=engine)
                     sheets = {}
                     for sheet_name in excel_file.sheet_names:
