@@ -474,7 +474,7 @@ if st.session_state.uploaded_files:
 
 		    
 		    if any(term in str(ai_response).lower() for term in ['<function', 'lambda', 'object at', 'dtype']):
-			    ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
+			ai_response = "I found some computed values in the data. Let me provide a clearer analysis:\n\n" + \
 			    		  "The dataset contains processed columns that need proper evaluation. " + \
 			    		  "Please ensure all calculated fields are properly resolved before analysis."
 
